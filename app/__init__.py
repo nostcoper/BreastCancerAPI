@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, redirect, Blueprint
 from app.config import Config
 from app.utils.loggin_config import setup_logger
 from flasgger import Swagger
@@ -42,5 +42,9 @@ def create_app():
     base_prefix = '/v1/'
     from app.routes.classification_route import classification_bp
     app.register_blueprint(classification_bp, url_prefix=f'{base_prefix}')
+    
+    @app.route('/')
+    def redirect_to_docs():
+        return redirect('/v1/docs/')
 
     return app
